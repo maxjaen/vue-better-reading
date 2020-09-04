@@ -5,7 +5,7 @@
       <div>
         <button v-on:click="processWords()">Display</button>
       </div>
-      <p style="white-space: pre-line;">{{ currentDisplayedWord }}</p>
+      <p class="word">{{ currentDisplayedWord }}</p>
     </div>
   </div>
 </template>
@@ -47,6 +47,13 @@ export default {
   background-color: #7e9389;
   padding: 70px;
 }
+
+.word {
+  white-space: pre-line;
+  text-align: center;
+  font-size: 50px;
+}
+
 textarea {
   height: 250px;
   width: -moz-available;
