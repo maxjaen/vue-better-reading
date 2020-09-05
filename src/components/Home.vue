@@ -3,7 +3,7 @@
     <div class="input">
       <textarea v-model="insertedText" placeholder="Paste your text"></textarea>
       <div>
-        <button v-on:click="processWords()">Display</button>
+        <button v-on:click="processWords()">Start Reading</button>
       </div>
       <p class="word">{{ currentDisplayedWord }}</p>
     </div>
@@ -25,12 +25,24 @@ export default {
   },
   methods: {
     processWords: async function() {
+      const second = 1000;
+      const wordsPerSecond = 4;
+
       const wordsFromInsertion = this.insertedText.split(' ');
 
       while (wordsFromInsertion.length !== 0) {
-        this.currentDisplayedWord = wordsFromInsertion.shift();
-        await this.wait(300);
+        let nextWord = wordsFromInsertion.shift();
+
+        if (nextWord.split('.').length > 1) {
+          this.currentDisplayedWord = `${nextWord} <---`;
+          await this.wait(500);
+        } else {
+          this.currentDisplayedWord = `${nextWord}`;
+          await this.wait(second / wordsPerSecond);
+        }
       }
+
+      this.currentDisplayedWord = '-';
     },
     wait: async function(milliseconds) {
       return new Promise((resolve) => setTimeout(resolve, milliseconds));
