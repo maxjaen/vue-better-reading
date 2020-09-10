@@ -5,7 +5,7 @@
       <div>
         <button v-on:click="processWords()">Start Reading</button>
       </div>
-      <p class="word">{{ currentDisplayedWord }}</p>
+      <p v-if="inReading" class="word">{{ currentDisplayedWord }}</p>
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   props: {
     insertedText: String,
     currentDisplayedWord: String,
+    inReading: Boolean,
   },
   data: function() {
     return {
@@ -27,8 +28,9 @@ export default {
     processWords: async function() {
       const second = 1000;
       const wordsPerSecond = 4;
-
       const wordsFromInsertion = this.insertedText.split(' ');
+
+      this.inReading = true;
 
       while (wordsFromInsertion.length !== 0) {
         let nextWord = wordsFromInsertion.shift();
@@ -42,7 +44,7 @@ export default {
         }
       }
 
-      this.currentDisplayedWord = '-';
+      this.inReading = false;
     },
     wait: async function(milliseconds) {
       return new Promise((resolve) => setTimeout(resolve, milliseconds));
